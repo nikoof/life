@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1689587088,
-        "narHash": "sha256-fgvosmfO1LvPXfwjnbDoy27OLEDpy4py6B2/HIYdneA=",
+        "lastModified": 1703766384,
+        "narHash": "sha256-PN7mpVqo/Rf/XIIJv7Kuc4MVvF349F9hBipcGjr4HNg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b4c0a4370ea1afc0696650c32005253f550a31d0",
+        "rev": "05d50dc97a11f0382514bb062ce470ce7da20dfd",
         "type": "github"
       },
       "original": {
@@ -15,9 +15,26 @@
         "type": "github"
       }
     },
+    "raygui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1702665531,
+        "narHash": "sha256-AOk6FIjmb0Y7UuTvkaegxfGhpKNrfAoArAFxEDsyMqo=",
+        "owner": "raysan5",
+        "repo": "raygui",
+        "rev": "2c8dc854d4e585761c2d4c77b4abbc46d298d5be",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raysan5",
+        "repo": "raygui",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
+        "raygui": "raygui",
         "utils": "utils"
       }
     },
@@ -41,11 +58,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1694529238,
-        "narHash": "sha256-zsNZZGTGnMOf9YpHKJqMSsa0dXbfmxeoJ7xHlrt+xmY=",
+        "lastModified": 1701680307,
+        "narHash": "sha256-kAuep2h5ajznlPMD9rnQyffWG8EM/C73lejGofXvdM8=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "ff7b65b44d01cf9ba6a71320833626af21126384",
+        "rev": "4022d587cbbfd70fe950c1e2083a02621806a725",
         "type": "github"
       },
       "original": {

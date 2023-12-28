@@ -1,11 +1,11 @@
-#include "gui.h"
+#include "gui.hpp"
 
 #include <raylib.h>
 #include <raymath.h>
 
 const float ZOOM_SPEED = 0.05f;
 
-Gui::Gui(int screenWidth, int screenHeight, const char *windowTitle) {
+gui_t::gui_t(int screenWidth, int screenHeight, const char* windowTitle) {
   InitWindow(screenWidth, screenHeight, windowTitle);
   SetTargetFPS(60);
 
@@ -16,9 +16,9 @@ Gui::Gui(int screenWidth, int screenHeight, const char *windowTitle) {
   camera.rotation = 0.0f;
 }
 
-Gui::~Gui() { CloseWindow(); }
+gui_t::~gui_t() { CloseWindow(); }
 
-void Gui::PanCamera() {
+void gui_t::handle_camera_pan() {
   static Vector2 prevMousePosition = {0, 0};
 
   if (Vector2Equals(prevMousePosition, Vector2Zero())) {
@@ -35,7 +35,7 @@ void Gui::PanCamera() {
   prevMousePosition = currentMousePosition;
 }
 
-void Gui::ZoomCamera() {
+void gui_t::handle_camera_zoom() {
   float delta = GetMouseWheelMove();
   camera.zoom = Clamp(camera.zoom + delta * ZOOM_SPEED, 0.01f, 3.0f);
 }

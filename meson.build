@@ -1,10 +1,15 @@
-project('life', 'cpp')
-
-raylib = dependency('raylib')
+project('life', 'cpp',
+  default_options : ['cpp_std=c++2a'])
 
 src = [
   'src/main.cpp',
-  'src/gui.cpp'
+  'src/gui.cpp',
+  'src/simulation.cpp'
 ]
 
-executable('life', src, dependencies : raylib)
+dependencies = [
+  dependency('raylib')
+]
+
+executable('life', src,
+  dependencies : dependencies)

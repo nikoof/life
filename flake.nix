@@ -2,12 +2,28 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     utils.url = "github:numtide/flake-utils";
+
+    raygui = {
+      url = "github:raysan5/raygui";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, utils, ... }:
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        raygui = with pkgs; stdenv.mkDerivation {
+          name = "raygui";
+          src = inputs.raygui;
+          propagatedBuildInputs = [ pkgs.raylib ];
+          installPhase = ''
+            mkdir -p $out/include
+            cp -r src/raygui.h $out/include
+            cp -r icons $out/include
+            cp -r icons $out/include
+          '';
+        };
       in
       with pkgs; rec {
         defaultPackage = stdenv.mkDerivation {
@@ -16,14 +32,14 @@
           src = ./.;
 
           nativeBuildInputs = [
+            pkg-config
             meson
             ninja
-            pkg-config
-            gcc
           ];
 
           buildInputs = [
             raylib
+            raygui
           ];
 
           installPhase = ''
@@ -36,8 +52,12 @@
           drv = defaultPackage;
         };
 
-        devShell = mkShell {
-          inherit (defaultPackage) buildInputs nativeBuildInputs;
+        devShell = pkgs.mkShell {
+          inputsFrom = [ defaultPackage ];
+          packages = [
+            gdb
+            clang-tools
+          ];
         };
       }
     );
