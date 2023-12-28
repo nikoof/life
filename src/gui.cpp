@@ -8,6 +8,7 @@ const float ZOOM_SPEED = 0.05f;
 gui_t::gui_t(int screenWidth, int screenHeight, const char* windowTitle) {
   InitWindow(screenWidth, screenHeight, windowTitle);
   SetTargetFPS(60);
+  SetTraceLogLevel(LOG_NONE);
 
   camera.target = camera.offset =
       Vector2{screenWidth / 2.0f, screenHeight / 2.0f};
@@ -17,6 +18,18 @@ gui_t::gui_t(int screenWidth, int screenHeight, const char* windowTitle) {
 }
 
 gui_t::~gui_t() { CloseWindow(); }
+
+void gui_t::render(std::function<void()> render_world_fn,
+                   std::function<void(const Camera2D&)> render_camera_fn) {
+  BeginDrawing();
+  render_world_fn();
+
+  BeginMode2D(camera);
+  render_camera_fn(camera);
+  EndMode2D();
+
+  EndDrawing();
+}
 
 void gui_t::handle_camera_pan() {
   static Vector2 prevMousePosition = {0, 0};
