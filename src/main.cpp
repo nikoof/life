@@ -1,26 +1,28 @@
-#include <functional>
-
-#define RAYGUI_IMPLEMENTATION
-
 #include <raygui.h>
 #include <raylib.h>
-#include <raymath.h>
+
+#include <functional>
+#include <iostream>
 
 #include "gui.hpp"
+#include "props.hpp"
 #include "simulation.hpp"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
-void main_loop(size_t update_rate, std::function<void()> update_fn,
+props_t props;
+
+void main_loop(std::function<void()> update_fn,
                std::function<void()> render_fn) {
-  float acc_time = 1.0f;
-  float delta_time = 1.0f / static_cast<float>(update_rate);
+  float acc_time = 0.0f;
+  float delta_time = 1.0f / props.speed;
 
   while (!WindowShouldClose()) {
     acc_time += GetFrameTime();
+    delta_time = 1.0 / props.speed;
 
-    while (acc_time >= delta_time) {
+    while (!WindowShouldClose() && acc_time >= delta_time) {
       update_fn();
       acc_time -= delta_time;
     }
@@ -30,27 +32,23 @@ void main_loop(size_t update_rate, std::function<void()> update_fn,
 }
 
 int main() {
-  gui_t gui(WIDTH, HEIGHT, "life");
+  gui_t gui(WIDTH, HEIGHT, "life", 60);
   simulation_t simulation;
 
-  auto update_fn = [&]() { simulation.update(); };
+  auto update_fn = [&]() {
+    if (props.running) simulation.update();
+  };
   auto render_fn = [&]() {
     gui.handle_camera_pan();
     gui.handle_camera_zoom();
 
-    gui.render(
-        [&]() {
-          ClearBackground(RAYWHITE);
-          ClearBackground(RAYWHITE);
-          ClearBackground(RAYWHITE);
-          ClearBackground(RAYWHITE);
-        },
-        [&](const Camera2D& camera) {
-          for (const auto& [x, y] : simulation.get_living_cells()) {
-            DrawRectangle(x * 10, -y * 10, 10, 10, BLACK);
-          }
-        });
+    gui.render(props, [&](const Camera2D& camera) {
+      for (const auto& [x, y] : simulation.get_living_cells()) {
+        DrawRectangle(x * 10, -y * 10, 10, 10,
+                      GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL)));
+      }
+    });
   };
 
-  main_loop(15, update_fn, render_fn);
+  main_loop(update_fn, render_fn);
 }

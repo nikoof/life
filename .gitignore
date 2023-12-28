@@ -1,6 +1,7 @@
 .vs/
 .vscode/
 .cache/
+.direnv/
 
 build/
 result

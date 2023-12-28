@@ -20,8 +20,6 @@
           installPhase = ''
             mkdir -p $out/include
             cp -r src/raygui.h $out/include
-            cp -r icons $out/include
-            cp -r icons $out/include
           '';
         };
       in
