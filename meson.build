@@ -3,7 +3,8 @@ project('life', 'cpp',
 
 src = [
   'src/main.cpp',
-  'src/simulation.cpp'
+  'src/simulation.cpp',
+  'src/gui.cpp'
 ]
 
 dependencies = [
