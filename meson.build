@@ -3,12 +3,14 @@ project('life', 'cpp',
 
 src = [
   'src/main.cpp',
-  'src/gui.cpp',
   'src/simulation.cpp'
 ]
 
 dependencies = [
-  dependency('raylib')
+  dependency('sfml-system'),
+  dependency('sfml-window'),
+  dependency('sfml-graphics'),
+  dependency('tgui')
 ]
 
 executable('life', src,

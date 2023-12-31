@@ -1,0 +1,14 @@
+diff --git a/cmake/pkgconfig/tgui.pc.in b/cmake/pkgconfig/tgui.pc.in
+index 1b3625af..08919c64d 100644
+--- a/cmake/pkgconfig/tgui.pc.in
++++ b/cmake/pkgconfig/tgui.pc.in
+@@ -1,7 +1,5 @@
+-prefix=@CMAKE_INSTALL_PREFIX@
+-exec_prefix=${prefix}
+-libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+-includedir=${prefix}/include
++libdir=@CMAKE_INSTALL_FULL_LIBDIR@
++includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+ 
+ Name: TGUI
+ Description: Cross-platform modern c++ GUI library

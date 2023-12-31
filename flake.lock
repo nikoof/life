@@ -2,39 +2,23 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1703766384,
-        "narHash": "sha256-PN7mpVqo/Rf/XIIJv7Kuc4MVvF349F9hBipcGjr4HNg=",
+        "lastModified": 1703974965,
+        "narHash": "sha256-dvZjLuAcLnv25bqStTL2ZICC5YSs8aynF5amRM+I6UM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "05d50dc97a11f0382514bb062ce470ce7da20dfd",
+        "rev": "9f434bd436e2bb5615827469ed651e30c26daada",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "raygui": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702665531,
-        "narHash": "sha256-AOk6FIjmb0Y7UuTvkaegxfGhpKNrfAoArAFxEDsyMqo=",
-        "owner": "raysan5",
-        "repo": "raygui",
-        "rev": "2c8dc854d4e585761c2d4c77b4abbc46d298d5be",
-        "type": "github"
-      },
-      "original": {
-        "owner": "raysan5",
-        "repo": "raygui",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "raygui": "raygui",
+        "tgui": "tgui",
         "utils": "utils"
       }
     },
@@ -50,6 +34,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tgui": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703959425,
+        "narHash": "sha256-1JhL8z1WngOMqk/Mwe5omkiMeAb8yw/a5gH/sWFrf1A=",
+        "owner": "texus",
+        "repo": "TGUI",
+        "rev": "790f961c85467342b183034780d0b1da0418438e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "texus",
+        "repo": "TGUI",
         "type": "github"
       }
     },

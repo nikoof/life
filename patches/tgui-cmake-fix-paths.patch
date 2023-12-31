@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8c925d35..b88a0e62 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -374,7 +374,7 @@ if (TGUI_INSTALL)
+     option(TGUI_INSTALL_PKGCONFIG_FILES "TRUE to automatically install pkg-config files so other projects can find TGUI" ${TGUI_INSTALL_PKGCONFIG_DEFAULT})
+ 
+     if (TGUI_INSTALL_PKGCONFIG_FILES)
+-        tgui_set_option(TGUI_PKGCONFIG_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${TGUI_PKGCONFIG_DIR}" PATH "Install directory for TGUI's pkg-config .pc files")
++        tgui_set_option(TGUI_PKGCONFIG_INSTALL_PREFIX "${TGUI_PKGCONFIG_DIR}" PATH "Install directory for TGUI's pkg-config .pc files")
+ 
+         configure_file("cmake/pkgconfig/tgui.pc.in" "pkgconfig/tgui.pc" @ONLY)
+         install(FILES "${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/tgui.pc" DESTINATION "${TGUI_PKGCONFIG_INSTALL_PREFIX}")
