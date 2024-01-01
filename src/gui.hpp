@@ -13,12 +13,19 @@ class Gui {
   Gui(uint32_t width, uint32_t height, const char* title);
   ~Gui() = default;
 
-  void loop(std::function<void()> updateFn,
+  void loop(float updateRate, std::function<void()> updateFn,
             std::function<void(sf::Event)> inputFn,
             std::function<void(sf::RenderWindow&)> renderFn);
 
  private:
-  tgui::Gui tgui;
-  sf::RenderWindow window;
+  bool updateCamera(sf::Event event);
+
+ private:
+  tgui::Gui m_Tgui;
+  sf::RenderWindow m_Window;
+  sf::View m_Camera;
+
+  sf::Vector2f prevMousePos;
+  float m_Zoom = 1.0f;
 };
 }  // namespace life

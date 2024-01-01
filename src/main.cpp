@@ -11,14 +11,14 @@ const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
 int main() {
-  simulation_t simulation;
+  life::Simulation simulation;
 
   const auto inputFn = [&](sf::Event event) {};
   const auto updateFn = [&]() { simulation.update(); };
   const auto renderFn = [&](sf::RenderWindow& window) {
     window.clear(sf::Color::Black);
 
-    for (const auto& [x, y] : simulation.get_living_cells()) {
+    for (const auto& [x, y] : simulation.livingCells()) {
       sf::RectangleShape rect;
       rect.setPosition(sf::Vector2f(10.0f * x, 10.0f * -y));
       rect.setSize(sf::Vector2f(10.0f, 10.0f));
@@ -29,5 +29,5 @@ int main() {
   };
 
   life::Gui gui(WIDTH, HEIGHT, "life");
-  gui.loop(updateFn, inputFn, renderFn);
+  gui.loop(15.0f, updateFn, inputFn, renderFn);
 }
