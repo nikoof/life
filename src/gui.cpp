@@ -8,6 +8,7 @@ Gui::Gui(uint32_t width, uint32_t height, const char* title)
 
   m_Camera = m_Window.getDefaultView();
   m_Camera.setViewport({0.0f, 0.0f, 1.0f, 1.0f});
+  m_Camera.setCenter({0.0f, 0.0f});
 }
 
 void Gui::loop(float updateRate, std::function<void()> updateFn,

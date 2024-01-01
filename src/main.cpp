@@ -20,7 +20,7 @@ int main() {
 
     for (const auto& [x, y] : simulation.livingCells()) {
       sf::RectangleShape rect;
-      rect.setPosition(sf::Vector2f(10.0f * x, 10.0f * -y));
+      rect.setPosition(sf::Vector2f(10.0f * x, 10.0f * y));
       rect.setSize(sf::Vector2f(10.0f, 10.0f));
       rect.setFillColor(sf::Color::White);
 
