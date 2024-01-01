@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/github/license/nikoof/life)
 
-A simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in C++ using [raylib](https://github.com/raysan5/raylib) and [raygui](https://github.com/raysan5/raygui). Currently a work-in-progress.
+A simple implementation of [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in C++ using [SFML](https://www.sfml-dev.org/) and [TGUI](https://tgui.eu/). Currently a work-in-progress.
 
 Planned features:
 
@@ -22,7 +22,7 @@ nix run github:nikoof/life
 
 # Building manually
 
-Alternatively, you can clone the repository and build manually.
+Alternatively, you can clone the repository and build manually. You need to install [SFML](https://www.sfml-dev.org/) and [TGUI](https://tgui.eu/) and make the libraries available to your compiler.
 
 **Note: You need a compiler with support for C++23. I've only built this with `g++ (GCC) 12.3.0`.**
 
