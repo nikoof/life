@@ -4,26 +4,30 @@
 #include <cstdint>
 #include <unordered_set>
 
+namespace life {
 struct coord_t {
   int64_t x, y;
 };
+}  // namespace life
 
 template <>
-struct std::hash<coord_t> {
-  size_t operator()(const coord_t& coord) const noexcept;
+struct std::hash<life::coord_t> {
+  size_t operator()(const life::coord_t& coord) const noexcept;
 };
 
-class simulation_t {
+namespace life {
+class Simulation {
  public:
-  simulation_t();
-  ~simulation_t();
+  Simulation();
+  ~Simulation();
 
   void update();
-  const std::unordered_set<coord_t>& get_living_cells();
+  const std::unordered_set<coord_t>& livingCells();
 
  private:
-  size_t living_neighbors(coord_t cell);
+  size_t livingNeighbors(coord_t cell);
 
  private:
-  std::unordered_set<coord_t> living_cells;
+  std::unordered_set<coord_t> m_LivingCells;
 };
+}  // namespace life
