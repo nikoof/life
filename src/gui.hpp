@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <TGUI/Core.hpp>
+#include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
 #include <cstddef>
 #include <cstdint>
@@ -31,6 +32,7 @@ class Gui {
 
   tgui::Gui m_Tgui;
   tgui::Slider::Ptr m_SpeedSlider;
+  tgui::Label::Ptr m_HelpText;
 
   sf::Vector2f prevMousePos;
   float m_Zoom = 1.0f;

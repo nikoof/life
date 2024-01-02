@@ -1,6 +1,11 @@
 #include "gui.hpp"
 
-#include "props.hpp"
+static const char* HELP_TEXT =
+    "Press [SPC] to start/stop the simulation.\n"
+    "Zoom the camera with the scroll wheel.\n"
+    "Pan it with middle-click.\n"
+    "Paint cells with left-click.\n"
+    "Erase them with right-click.\n";
 
 namespace life {
 Gui::Gui(uint32_t width, uint32_t height, const char* title)
@@ -19,6 +24,14 @@ Gui::Gui(uint32_t width, uint32_t height, const char* title)
   m_SpeedSlider->setPosition("50%", "95%");
   m_SpeedSlider->setWidth("70%");
   m_Tgui.add(m_SpeedSlider, "speedSlider");
+
+  m_HelpText = tgui::Label::create(HELP_TEXT);
+  m_HelpText->setTextSize(16);
+  m_HelpText->setAutoSize(true);
+  m_HelpText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Right);
+  m_HelpText->setOrigin(1.0f, 0.0f);
+  m_HelpText->setPosition("98%", "2%");
+  m_Tgui.add(m_HelpText, "helpText");
 }
 
 void Gui::loop(const Props& props, std::function<void()> updateFn,
@@ -41,6 +54,12 @@ void Gui::loop(const Props& props, std::function<void()> updateFn,
       updateFn();
     }
     accTime += clock.restart();
+
+    if (props.running) {
+      m_Tgui.remove(m_HelpText);
+    } else {
+      m_Tgui.add(m_HelpText);
+    }
 
     renderFn(m_Window);
 
