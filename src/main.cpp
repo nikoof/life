@@ -1,7 +1,7 @@
 #include <SFML/Window.hpp>
+#include <cmath>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 
 #include "gui.hpp"
 #include "props.hpp"
@@ -21,7 +21,7 @@ int main() {
   gui.speedSlider()->onValueChange(
       [&](float sliderValue) { props.speed = sliderValue; });
 
-  const auto inputFn = [&](sf::Window& window, sf::Event event) -> bool {
+  const auto inputFn = [&](sf::RenderWindow& window, sf::Event event) -> bool {
     switch (event.type) {
       case sf::Event::Closed:
         window.close();
@@ -38,10 +38,37 @@ int main() {
         }
         return true;
 
+      case sf::Event::MouseButtonPressed: {
+        sf::Vector2f coords =
+            window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        life::coord_t cell = {static_cast<int32_t>(std::floor(coords.x)),
+                              static_cast<int32_t>(std::floor(coords.y))};
+
+        switch (event.mouseButton.button) {
+          case sf::Mouse::Button::Left:
+            simulation.addCell(cell);
+            return true;
+
+          case sf::Mouse::Button::Right:
+            simulation.removeCell(cell);
+            return true;
+
+          default:
+            return false;
+        }
+      }
+
       case sf::Event::MouseMoved: {
+        sf::Vector2f coords =
+            window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        life::coord_t cell = {static_cast<int32_t>(std::floor(coords.x)),
+                              static_cast<int32_t>(std::floor(coords.y))};
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-          std::cout << event.mouseMove.x << " " << event.mouseMove.y
-                    << std::endl;
+          simulation.addCell(cell);
+          return true;
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+          simulation.removeCell(cell);
           return true;
         }
         return false;

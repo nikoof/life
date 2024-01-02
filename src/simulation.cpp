@@ -12,11 +12,6 @@ size_t std::hash<life::coord_t>::operator()(
 }
 
 namespace life {
-
-bool operator==(const coord_t& c1, const coord_t& c2) {
-  return c1.x == c2.x && c1.y == c2.y;
-}
-
 Simulation::Simulation() {
   m_LivingCells = {
       {0, 0}, {-1, 0}, {1, 0}, {1, +1}, {0, +2},

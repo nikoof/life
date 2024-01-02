@@ -8,6 +8,10 @@ namespace life {
 struct coord_t {
   int64_t x, y;
 };
+
+inline bool operator==(const coord_t& c1, const coord_t& c2) {
+  return c1.x == c2.x && c1.y == c2.y;
+}
 }  // namespace life
 
 template <>
@@ -23,6 +27,9 @@ class Simulation {
 
   void update();
   const std::unordered_set<coord_t>& livingCells();
+
+  inline void addCell(coord_t cell) { m_LivingCells.insert(cell); };
+  inline void removeCell(coord_t cell) { m_LivingCells.erase(cell); };
 
  private:
   size_t livingNeighbors(coord_t cell);

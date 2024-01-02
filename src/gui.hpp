@@ -17,7 +17,7 @@ class Gui {
   ~Gui() = default;
 
   void loop(const Props& props, std::function<void()> updateFn,
-            std::function<bool(sf::Window&, sf::Event)> inputFn,
+            std::function<bool(sf::RenderWindow&, sf::Event)> inputFn,
             std::function<void(sf::RenderWindow&)> renderFn);
 
   inline tgui::Slider::Ptr speedSlider() { return m_SpeedSlider; }

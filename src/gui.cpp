@@ -22,7 +22,7 @@ Gui::Gui(uint32_t width, uint32_t height, const char* title)
 }
 
 void Gui::loop(const Props& props, std::function<void()> updateFn,
-               std::function<bool(sf::Window&, sf::Event)> inputFn,
+               std::function<bool(sf::RenderWindow&, sf::Event)> inputFn,
                std::function<void(sf::RenderWindow&)> renderFn) {
   sf::Clock clock;
   sf::Time accTime = sf::Time::Zero;
