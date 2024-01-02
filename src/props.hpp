@@ -4,7 +4,7 @@
 #include <cstdint>
 
 namespace life {
-struct props_t {
+struct Props {
   bool running = true;
   float speed = 15.0f;
 };
