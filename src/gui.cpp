@@ -1,5 +1,7 @@
 #include "gui.hpp"
 
+#include "props.hpp"
+
 namespace life {
 Gui::Gui(uint32_t width, uint32_t height, const char* title)
     : m_Window({width, height}, title) {
@@ -9,24 +11,32 @@ Gui::Gui(uint32_t width, uint32_t height, const char* title)
   m_Camera = m_Window.getDefaultView();
   m_Camera.setViewport({0.0f, 0.0f, 1.0f, 1.0f});
   m_Camera.setCenter({0.0f, 0.0f});
+  m_Camera.zoom(0.1f);
+  m_Zoom *= 0.1f;
+
+  m_SpeedSlider = tgui::Slider::create();
+  m_SpeedSlider->setOrigin(0.5f, 0.5f);
+  m_SpeedSlider->setPosition("50%", "95%");
+  m_SpeedSlider->setWidth("70%");
+  m_Tgui.add(m_SpeedSlider, "speedSlider");
 }
 
-void Gui::loop(float updateRate, std::function<void()> updateFn,
-               std::function<void(sf::Event)> inputFn,
+void Gui::loop(const Props& props, std::function<void()> updateFn,
+               std::function<bool(sf::Window&, sf::Event)> inputFn,
                std::function<void(sf::RenderWindow&)> renderFn) {
   sf::Clock clock;
   sf::Time accTime = sf::Time::Zero;
-  sf::Time deltaTime = sf::seconds(1.0f / updateRate);
+  sf::Time deltaTime = sf::seconds(1.0f / props.speed);
   while (m_Window.isOpen()) {
     sf::Event event;
     while (m_Window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) m_Window.close();
       if (m_Tgui.handleEvent(event)) continue;
       if (updateCamera(event)) continue;
-      inputFn(event);
+      if (inputFn(m_Window, event)) continue;
     }
 
-    while (accTime >= deltaTime) {
+    deltaTime = sf::seconds(1.0f / props.speed);
+    while (m_Window.isOpen() && accTime >= deltaTime) {
       accTime -= deltaTime;
       updateFn();
     }
