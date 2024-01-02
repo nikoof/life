@@ -4,13 +4,6 @@
 #include <numeric>
 #include <ranges>
 
-size_t std::hash<life::coord_t>::operator()(
-    const life::coord_t& coord) const noexcept {
-  size_t h1 = std::hash<int64_t>{}(coord.x);
-  size_t h2 = std::hash<int64_t>{}(coord.y);
-  return h1 ^ (h2 << 1);
-}
-
 namespace life {
 Simulation::Simulation() {
   m_LivingCells = {
@@ -19,38 +12,37 @@ Simulation::Simulation() {
 }
 Simulation::~Simulation() {}
 
-const std::unordered_set<coord_t>& Simulation::livingCells() {
+const std::unordered_set<Coord>& Simulation::livingCells() {
   return m_LivingCells;
 }
 
-size_t Simulation::livingNeighbors(coord_t cell) {
+size_t Simulation::livingNeighbors(Coord cell) {
   const auto& [x, y] = cell;
   auto neighbors = {
-      coord_t{x + 1, y + 1}, coord_t{x + 1, y}, coord_t{x + 1, y - 1},
-      coord_t{x - 1, y + 1}, coord_t{x - 1, y}, coord_t{x - 1, y - 1},
-      coord_t{x, y + 1},     coord_t{x, y - 1},
+      Coord{x + 1, y + 1}, Coord{x + 1, y}, Coord{x + 1, y - 1},
+      Coord{x - 1, y + 1}, Coord{x - 1, y}, Coord{x - 1, y - 1},
+      Coord{x, y + 1},     Coord{x, y - 1},
   };
 
   return std::ranges::distance(
-      neighbors | std::views::filter([this](const coord_t& neighbor) {
+      neighbors | std::views::filter([this](const Coord& neighbor) {
         return m_LivingCells.contains(neighbor);
       }));
 }
 
 void Simulation::update() {
-  std::unordered_set<coord_t> willLive = std::transform_reduce(
-      m_LivingCells.cbegin(), m_LivingCells.cend(),
-      std::unordered_set<coord_t>{},
-      [](std::unordered_set<coord_t> acc, std::unordered_set<coord_t> s) {
+  std::unordered_set<Coord> willLive = std::transform_reduce(
+      m_LivingCells.cbegin(), m_LivingCells.cend(), std::unordered_set<Coord>{},
+      [](std::unordered_set<Coord> acc, std::unordered_set<Coord> s) {
         acc.insert(s.begin(), s.end());
         return acc;
       },
-      [this](const coord_t& cell) {
+      [this](const Coord& cell) {
         const auto& [x, y] = cell;
-        std::unordered_set<coord_t> newborns;
+        std::unordered_set<Coord> newborns;
         for (int64_t dx = -1; dx <= 1; ++dx) {
           for (int64_t dy = -1; dy <= 1; ++dy) {
-            coord_t neighbor = {x + dx, y + dy};
+            Coord neighbor = {x + dx, y + dy};
             if (livingNeighbors(neighbor) == 3) {
               newborns.insert(neighbor);
             }
@@ -61,17 +53,17 @@ void Simulation::update() {
       });
 
   auto willDieView =
-      m_LivingCells | std::views::filter([this](const coord_t& cell) {
+      m_LivingCells | std::views::filter([this](const Coord& cell) {
         size_t living_neighbor_count = livingNeighbors(cell);
         return living_neighbor_count < 2 || living_neighbor_count > 3;
       });
 
   // TODO: switch to using std::ranges::to<std::unordered_set> when it becomes
   // available in a compiler
-  std::unordered_set<coord_t> willDie(std::begin(willDieView),
-                                      std::end(willDieView));
+  std::unordered_set<Coord> willDie(std::begin(willDieView),
+                                    std::end(willDieView));
 
-  for (const coord_t& deadCell : willDie) {
+  for (const Coord& deadCell : willDie) {
     m_LivingCells.erase(deadCell);
   }
 

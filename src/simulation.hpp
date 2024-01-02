@@ -4,20 +4,7 @@
 #include <cstdint>
 #include <unordered_set>
 
-namespace life {
-struct coord_t {
-  int64_t x, y;
-};
-
-inline bool operator==(const coord_t& c1, const coord_t& c2) {
-  return c1.x == c2.x && c1.y == c2.y;
-}
-}  // namespace life
-
-template <>
-struct std::hash<life::coord_t> {
-  size_t operator()(const life::coord_t& coord) const noexcept;
-};
+#include "util.hpp"
 
 namespace life {
 class Simulation {
@@ -26,15 +13,15 @@ class Simulation {
   ~Simulation();
 
   void update();
-  const std::unordered_set<coord_t>& livingCells();
+  const std::unordered_set<Coord>& livingCells();
 
-  inline void addCell(coord_t cell) { m_LivingCells.insert(cell); };
-  inline void removeCell(coord_t cell) { m_LivingCells.erase(cell); };
-
- private:
-  size_t livingNeighbors(coord_t cell);
+  inline void addCell(Coord cell) { m_LivingCells.insert(cell); };
+  inline void removeCell(Coord cell) { m_LivingCells.erase(cell); };
 
  private:
-  std::unordered_set<coord_t> m_LivingCells;
+  size_t livingNeighbors(Coord cell);
+
+ private:
+  std::unordered_set<Coord> m_LivingCells;
 };
 }  // namespace life

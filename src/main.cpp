@@ -4,8 +4,8 @@
 #include <functional>
 
 #include "gui.hpp"
-#include "props.hpp"
 #include "simulation.hpp"
+#include "util.hpp"
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -41,8 +41,8 @@ int main() {
       case sf::Event::MouseButtonPressed: {
         sf::Vector2f coords =
             window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        life::coord_t cell = {static_cast<int32_t>(std::floor(coords.x)),
-                              static_cast<int32_t>(std::floor(coords.y))};
+        life::Coord cell = {static_cast<int32_t>(std::floor(coords.x)),
+                            static_cast<int32_t>(std::floor(coords.y))};
 
         switch (event.mouseButton.button) {
           case sf::Mouse::Button::Left:
@@ -61,8 +61,8 @@ int main() {
       case sf::Event::MouseMoved: {
         sf::Vector2f coords =
             window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        life::coord_t cell = {static_cast<int32_t>(std::floor(coords.x)),
-                              static_cast<int32_t>(std::floor(coords.y))};
+        life::Coord cell = {static_cast<int32_t>(std::floor(coords.x)),
+                            static_cast<int32_t>(std::floor(coords.y))};
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
           simulation.addCell(cell);
           return true;

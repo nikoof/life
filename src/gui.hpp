@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <functional>
 
-#include "props.hpp"
+#include "util.hpp"
 
 namespace life {
 class Gui {
