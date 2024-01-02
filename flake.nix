@@ -74,6 +74,7 @@
           packages = [
             gdb
             clang-tools
+            lazygit
           ];
         };
       }
