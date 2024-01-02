@@ -71,12 +71,14 @@ bool Gui::updateCamera(sf::Event event) {
     case sf::Event::MouseMoved: {
       sf::Vector2f newMousePos =
           static_cast<sf::Vector2f>(sf::Mouse::getPosition(m_Window));
-      if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        m_Camera.move(m_Zoom * ((prevMousePos - newMousePos)));
+      if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle)) {
+        m_Camera.move(m_Zoom * (prevMousePos - newMousePos));
         m_Window.setView(m_Camera);
+        prevMousePos = newMousePos;
+        return true;
       }
       prevMousePos = newMousePos;
-      return true;
+      return false;
     }
 
     default:
