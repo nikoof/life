@@ -23,8 +23,10 @@ nix run github:nikoof/life
 # Building manually
 
 Alternatively, you can clone the repository and build manually. You need to install [SFML](https://www.sfml-dev.org/) and [TGUI](https://tgui.eu/) and make the libraries available to your compiler.
+You need a compiler with good support for C++23.
 
-**Note: You need a compiler with support for C++23. I've only built this with `g++ (GCC) 12.3.0`.**
+**Note: I am compiling with clang++ 17.0.6 and libc++/libcxx. It is also possible to compile with g++ >=13 and libstdc++, however this breaks clangd code completion ([because of incomplete support for concepts in clang](https://github.com/clangd/clangd/discussions/1876)).**
+The way I made completion work with clangd is very hacky, but I am not sure how I can make it work in a less hacky way since clangd seems to literally ignore `-stdlib=libc++`.
 
 ```shell
 git clone https://github.com/nikoof/life
