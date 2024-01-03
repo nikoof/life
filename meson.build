@@ -1,11 +1,14 @@
 project('life', 'cpp',
-  default_options : ['cpp_std=c++2a'])
+  default_options : ['cpp_std=c++23'])
+
+add_project_arguments('-stdlib=libc++', language : 'cpp')
 
 src = [
   'src/main.cpp',
   'src/simulation.cpp',
   'src/gui.cpp',
-  'src/util.cpp'
+  'src/util.cpp',
+  'src/formats.cpp'
 ]
 
 dependencies = [

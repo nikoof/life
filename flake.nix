@@ -16,34 +16,38 @@
           inherit system;
           overlays = [
             (final: prev: {
-              tgui = with prev; stdenv.mkDerivation {
-                pname = "tgui";
-                version = "1.1.0";
-                src = inputs.tgui;
-
-                buildInputs = [ xorg.libX11 sfml ];
-                nativeBuildInputs = [ pkg-config cmake ];
-
-                patches = [
-                  ./patches/tgui-pc-fix-paths.patch
-                  ./patches/tgui-cmake-fix-paths.patch
-                ];
-
-                cmakeFlags = [
-                  "-DTGUI_CXX_STANDARD=20"
-                  "-DTGUI_BACKEND=SFML_GRAPHICS"
-                  "-DTGUI_BUILD_GUI_BUILDER=0"
-                  "-DTGUI_SHARED_LIBS=1"
-                  "-DTGUI_INSTALL_PKGCONFIG_FILES=1"
-                ];
+              sfml = prev.sfml.override {
+                stdenv = prev.llvmPackages_17.libcxxStdenv;
               };
+              tgui = with prev;
+                llvmPackages_17.libcxxStdenv.mkDerivation {
+                  pname = "tgui";
+                  version = "1.1.0";
+                  src = inputs.tgui;
+
+                  buildInputs = [ xorg.libX11 sfml ];
+                  nativeBuildInputs = [ pkg-config cmake ];
+
+                  patches = [
+                    ./patches/tgui-pc-fix-paths.patch
+                    ./patches/tgui-cmake-fix-paths.patch
+                  ];
+
+                  cmakeFlags = [
+                    "-DTGUI_CXX_STANDARD=20"
+                    "-DTGUI_BACKEND=SFML_GRAPHICS"
+                    "-DTGUI_BUILD_GUI_BUILDER=0"
+                    "-DTGUI_SHARED_LIBS=1"
+                    "-DTGUI_INSTALL_PKGCONFIG_FILES=1"
+                  ];
+                };
             })
           ];
         };
       in
       with pkgs; rec {
         packages.tgui = tgui;
-        defaultPackage = stdenv.mkDerivation {
+        defaultPackage = llvmPackages_17.libcxxStdenv.mkDerivation {
           pname = "life";
           version = "0.1.0";
           src = ./.;
@@ -69,13 +73,18 @@
           drv = defaultPackage;
         };
 
-        devShell = pkgs.mkShell {
+        devShell = mkShell.override { stdenv = llvmPackages_17.libcxxStdenv; } {
           inputsFrom = [ defaultPackage ];
           packages = [
+            llvmPackages_17.libcxx
             gdb
-            clang-tools
             lazygit
+            cmake
           ];
+
+          shellHook = ''
+            export CLANGD_FLAGS="--query-driver=$(which clang++)"
+          '';
         };
       }
     );

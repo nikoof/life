@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <numeric>
 #include <ranges>
+#include <vector>
 
 namespace life {
 Simulation::Simulation() {
@@ -52,16 +53,12 @@ void Simulation::update() {
         return newborns;
       });
 
-  auto willDieView =
+  auto willDie =
       m_LivingCells | std::views::filter([this](const Coord& cell) {
         size_t living_neighbor_count = livingNeighbors(cell);
         return living_neighbor_count < 2 || living_neighbor_count > 3;
-      });
-
-  // TODO: switch to using std::ranges::to<std::unordered_set> when it becomes
-  // available in a compiler
-  std::unordered_set<Coord> willDie(std::begin(willDieView),
-                                    std::end(willDieView));
+      }) |
+      std::ranges::to<std::unordered_set>();
 
   for (const Coord& deadCell : willDie) {
     m_LivingCells.erase(deadCell);
